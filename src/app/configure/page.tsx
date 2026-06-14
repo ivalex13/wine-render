@@ -33,15 +33,15 @@ function StepIndicator({ current, total }: { current: Step; total: number }) {
           <div
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
               n === current
-                ? 'bg-gray-900 text-white'
+                ? 'bg-primary text-primary-foreground'
                 : n < current
-                ? 'bg-green-500 text-white'
-                : 'bg-gray-100 text-gray-400'
+                ? 'bg-green-600 text-white'
+                : 'bg-muted text-muted-foreground'
             }`}
           >
             {n < current ? '✓' : n}
           </div>
-          {n < total && <div className={`h-px w-8 ${n < current ? 'bg-green-500' : 'bg-gray-200'}`} />}
+          {n < total && <div className={`h-px w-8 ${n < current ? 'bg-green-600' : 'bg-border'}`} />}
         </div>
       ))}
     </div>
@@ -67,8 +67,8 @@ function SelectionGrid<T extends { id: string; name: string }>({
           onClick={() => onSelect(item.id)}
           className={`p-4 rounded-lg border-2 text-left transition-all ${
             selected === item.id
-              ? 'border-gray-900 bg-gray-50'
-              : 'border-gray-100 hover:border-gray-300'
+              ? 'border-primary bg-primary/10'
+              : 'border-border hover:border-border/60 bg-muted/30'
           }`}
         >
           {renderItem ? renderItem(item) : null}
@@ -92,9 +92,7 @@ function BottlePreview({ config, glassColors, liquidShades }: {
   return (
     <div className="flex items-center justify-center py-8">
       <div className="relative">
-        {/* Simplified bottle silhouette */}
         <svg width="120" height="280" viewBox="0 0 120 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Bottle body */}
           <path
             d="M35 80 Q30 90 28 110 L25 250 Q25 260 60 260 Q95 260 95 250 L92 110 Q90 90 85 80 Z"
             fill={glassHex}
@@ -102,20 +100,16 @@ function BottlePreview({ config, glassColors, liquidShades }: {
             stroke={glassHex}
             strokeWidth="1"
           />
-          {/* Liquid inside */}
           <path
             d="M35 80 Q30 90 28 110 L27 200 Q30 210 60 210 Q90 210 93 200 L92 110 Q90 90 85 80 Z"
             fill={liquidHex}
             opacity="0.6"
           />
-          {/* Label area */}
           <rect x="32" y="130" width="56" height="70" rx="3" fill="white" opacity="0.9" />
           {config.labelFile && (
             <text x="60" y="168" textAnchor="middle" fontSize="8" fill="#666">Label</text>
           )}
-          {/* Neck */}
           <rect x="48" y="30" width="24" height="52" rx="4" fill={glassHex} opacity="0.85" />
-          {/* Cork/cap */}
           <rect x="50" y="15" width="20" height="18" rx="3" fill="#8B7355" />
         </svg>
       </div>
@@ -207,8 +201,8 @@ export default function ConfigurePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-400">Loading configurator...</div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-muted-foreground">Loading configurator...</div>
       </div>
     )
   }
@@ -221,7 +215,6 @@ export default function ConfigurePage() {
     5: !!config.email,
   }
 
-  // Group shapes by category
   const shapesByCategory = bottleShapes.reduce<Record<string, BottleShape[]>>((acc, s) => {
     acc[s.category] = [...(acc[s.category] ?? []), s]
     return acc
@@ -233,19 +226,19 @@ export default function ConfigurePage() {
   }, {})
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <nav className="bg-white border-b border-gray-100 px-6 py-4">
+      <nav className="bg-card border-b border-border px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <Link href="/" className="font-semibold text-lg tracking-tight">WineRender</Link>
-          <span className="text-sm text-gray-500">$29 per image</span>
+          <Link href="/" className="font-bold text-lg tracking-tight">WineRender</Link>
+          <span className="text-sm text-muted-foreground">$29 per image</span>
         </div>
       </nav>
 
       <div className="max-w-5xl mx-auto px-6 py-12">
         <div className="mb-8">
           <h1 className="text-2xl font-bold mb-1">Configure your bottle</h1>
-          <p className="text-gray-500 text-sm">Customize every detail, then upload your label and submit.</p>
+          <p className="text-muted-foreground text-sm">Customize every detail, then upload your label and submit.</p>
         </div>
 
         <Progress value={(step / 5) * 100} className="mb-8 h-1" />
@@ -254,7 +247,7 @@ export default function ConfigurePage() {
         <div className="grid md:grid-cols-3 gap-8">
           {/* Config panel */}
           <div className="md:col-span-2">
-            <Card>
+            <Card className="bg-card border-border">
               <CardContent className="p-6">
                 {/* Step 1: Bottle shape */}
                 {step === 1 && (
@@ -262,7 +255,7 @@ export default function ConfigurePage() {
                     <h2 className="text-lg font-semibold mb-4">Select bottle shape</h2>
                     {Object.entries(shapesByCategory).map(([cat, shapes]) => (
                       <div key={cat} className="mb-6">
-                        <div className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">{cat}</div>
+                        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">{cat}</div>
                         <SelectionGrid
                           items={shapes}
                           selected={config.bottleShapeId}
@@ -284,7 +277,7 @@ export default function ConfigurePage() {
                         onSelect={(id) => setConfig(c => ({ ...c, glassColorId: id }))}
                         renderItem={(item) => (
                           <div
-                            className="w-8 h-8 rounded-full border border-gray-200"
+                            className="w-8 h-8 rounded-full border border-border"
                             style={{ backgroundColor: item.hex_preview ?? '#888' }}
                           />
                         )}
@@ -298,7 +291,7 @@ export default function ConfigurePage() {
                         onSelect={(id) => setConfig(c => ({ ...c, liquidShadeId: id }))}
                         renderItem={(item) => (
                           <div
-                            className="w-8 h-8 rounded-full border border-gray-200"
+                            className="w-8 h-8 rounded-full border border-border"
                             style={{ backgroundColor: item.hex_preview ?? '#888' }}
                           />
                         )}
@@ -313,7 +306,7 @@ export default function ConfigurePage() {
                     <h2 className="text-lg font-semibold mb-4">Closure finish</h2>
                     {Object.entries(closuresByCategory).map(([cat, closures]) => (
                       <div key={cat} className="mb-6">
-                        <div className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">{cat}</div>
+                        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">{cat}</div>
                         <SelectionGrid
                           items={closures}
                           selected={config.closureFinishId}
@@ -328,22 +321,22 @@ export default function ConfigurePage() {
                 {step === 4 && (
                   <div>
                     <h2 className="text-lg font-semibold mb-2">Upload your label</h2>
-                    <p className="text-sm text-gray-500 mb-6">PNG with transparent background recommended. Max 20MB.</p>
+                    <p className="text-sm text-muted-foreground mb-6">PNG with transparent background recommended. Max 20MB.</p>
 
                     <div
-                      className="border-2 border-dashed border-gray-200 rounded-lg p-12 text-center cursor-pointer hover:border-gray-400 transition-colors"
+                      className="border-2 border-dashed border-border rounded-lg p-12 text-center cursor-pointer hover:border-primary/50 transition-colors"
                       onClick={() => document.getElementById('label-upload')?.click()}
                     >
                       {config.labelFile ? (
                         <div>
-                          <div className="text-green-600 font-medium mb-1">✓ {config.labelFile.name}</div>
-                          <div className="text-xs text-gray-400">{(config.labelFile.size / 1024 / 1024).toFixed(2)} MB</div>
+                          <div className="text-green-400 font-medium mb-1">✓ {config.labelFile.name}</div>
+                          <div className="text-xs text-muted-foreground">{(config.labelFile.size / 1024 / 1024).toFixed(2)} MB</div>
                         </div>
                       ) : (
                         <div>
-                          <div className="text-gray-400 mb-2 text-4xl">↑</div>
-                          <div className="text-sm font-medium text-gray-600">Click to upload label file</div>
-                          <div className="text-xs text-gray-400 mt-1">PNG, max 20MB</div>
+                          <div className="text-muted-foreground mb-2 text-4xl">↑</div>
+                          <div className="text-sm font-medium">Click to upload label file</div>
+                          <div className="text-xs text-muted-foreground mt-1">PNG, max 20MB</div>
                         </div>
                       )}
                     </div>
@@ -358,29 +351,29 @@ export default function ConfigurePage() {
                     {config.labelFile && (
                       <div className="mt-6 space-y-4">
                         <div>
-                          <Label className="text-xs text-gray-500 mb-1 block">Label position X</Label>
+                          <Label className="text-xs text-muted-foreground mb-1 block">Label position X</Label>
                           <input
                             type="range"
                             min="-50"
                             max="50"
                             value={config.labelPositionX}
                             onChange={(e) => setConfig(c => ({ ...c, labelPositionX: Number(e.target.value) }))}
-                            className="w-full"
+                            className="w-full accent-primary"
                           />
                         </div>
                         <div>
-                          <Label className="text-xs text-gray-500 mb-1 block">Label position Y</Label>
+                          <Label className="text-xs text-muted-foreground mb-1 block">Label position Y</Label>
                           <input
                             type="range"
                             min="-50"
                             max="50"
                             value={config.labelPositionY}
                             onChange={(e) => setConfig(c => ({ ...c, labelPositionY: Number(e.target.value) }))}
-                            className="w-full"
+                            className="w-full accent-primary"
                           />
                         </div>
                         <div>
-                          <Label className="text-xs text-gray-500 mb-1 block">Label scale</Label>
+                          <Label className="text-xs text-muted-foreground mb-1 block">Label scale</Label>
                           <input
                             type="range"
                             min="0.5"
@@ -388,13 +381,13 @@ export default function ConfigurePage() {
                             step="0.1"
                             value={config.labelScale}
                             onChange={(e) => setConfig(c => ({ ...c, labelScale: Number(e.target.value) }))}
-                            className="w-full"
+                            className="w-full accent-primary"
                           />
                         </div>
                       </div>
                     )}
 
-                    <p className="text-xs text-gray-400 mt-4">
+                    <p className="text-xs text-muted-foreground mt-4">
                       No label yet? Skip this step — you can provide it after ordering, or we can use a blank label.
                     </p>
                   </div>
@@ -407,7 +400,7 @@ export default function ConfigurePage() {
                       <div className="text-center py-8">
                         <div className="text-5xl mb-4">✓</div>
                         <h2 className="text-xl font-bold mb-2">Order submitted!</h2>
-                        <p className="text-gray-500 text-sm mb-6">
+                        <p className="text-muted-foreground text-sm mb-6">
                           Your render will be delivered within 60 minutes. Check your email for updates.
                         </p>
                         <Badge variant="secondary" className="mb-4">Order ID: {orderId.slice(0, 8)}...</Badge>
@@ -421,30 +414,30 @@ export default function ConfigurePage() {
                       <div>
                         <h2 className="text-lg font-semibold mb-6">Review and pay</h2>
 
-                        <div className="bg-gray-50 rounded-lg p-4 mb-6 space-y-2 text-sm">
+                        <div className="bg-muted rounded-lg p-4 mb-6 space-y-2 text-sm">
                           <div className="flex justify-between">
-                            <span className="text-gray-500">Bottle</span>
+                            <span className="text-muted-foreground">Bottle</span>
                             <span>{bottleShapes.find(s => s.id === config.bottleShapeId)?.name}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-500">Glass color</span>
+                            <span className="text-muted-foreground">Glass color</span>
                             <span>{glassColors.find(c => c.id === config.glassColorId)?.name}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-500">Liquid shade</span>
+                            <span className="text-muted-foreground">Liquid shade</span>
                             <span>{liquidShades.find(s => s.id === config.liquidShadeId)?.name}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-500">Closure</span>
+                            <span className="text-muted-foreground">Closure</span>
                             <span>{closureFinishes.find(c => c.id === config.closureFinishId)?.name}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-500">Label</span>
+                            <span className="text-muted-foreground">Label</span>
                             <span>{config.labelFile ? config.labelFile.name : 'Not uploaded'}</span>
                           </div>
                         </div>
 
-                        <div className="border-t border-gray-100 pt-4 mb-6">
+                        <div className="border-t border-border pt-4 mb-6">
                           <div className="flex justify-between font-semibold">
                             <span>Total</span>
                             <span>$29.00</span>
@@ -460,7 +453,7 @@ export default function ConfigurePage() {
                             value={config.email}
                             onChange={(e) => setConfig(c => ({ ...c, email: e.target.value }))}
                           />
-                          <p className="text-xs text-gray-400">We'll send your render to this address.</p>
+                          <p className="text-xs text-muted-foreground">We&apos;ll send your render to this address.</p>
                         </div>
 
                         <Button
@@ -471,7 +464,7 @@ export default function ConfigurePage() {
                         >
                           {submitting ? 'Submitting...' : 'Pay $29.00 and submit'}
                         </Button>
-                        <p className="text-xs text-gray-400 text-center mt-3">
+                        <p className="text-xs text-muted-foreground text-center mt-3">
                           Payment processing coming soon — order will be created and we&apos;ll contact you.
                         </p>
                       </div>
@@ -505,15 +498,15 @@ export default function ConfigurePage() {
 
           {/* Live preview */}
           <div className="hidden md:block">
-            <Card className="sticky top-6">
+            <Card className="sticky top-6 bg-card border-border">
               <CardContent className="p-4">
-                <div className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Live preview</div>
+                <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">Live preview</div>
                 <BottlePreview
                   config={config}
                   glassColors={glassColors}
                   liquidShades={liquidShades}
                 />
-                <div className="text-xs text-gray-400 text-center mt-2">
+                <div className="text-xs text-muted-foreground text-center mt-2">
                   Illustrative preview — final render will be photorealistic
                 </div>
               </CardContent>

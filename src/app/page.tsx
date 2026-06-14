@@ -68,40 +68,46 @@ const FAQS = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Nav */}
-      <nav className="border-b border-gray-100 px-6 py-4 flex items-center justify-between max-w-6xl mx-auto">
-        <span className="font-semibold text-lg tracking-tight">WineRender</span>
-        <div className="flex items-center gap-6">
-          <Link href="#how-it-works" className="text-sm text-gray-600 hover:text-gray-900">How it works</Link>
-          <Link href="#pricing" className="text-sm text-gray-600 hover:text-gray-900">Pricing</Link>
-          <Link href="#faq" className="text-sm text-gray-600 hover:text-gray-900">FAQ</Link>
-          <Link href="/configure" className={buttonVariants({ size: 'sm' })}>Get started</Link>
+      <nav className="border-b border-border px-6 py-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <span className="font-bold text-lg tracking-tight">WineRender</span>
+          <div className="flex items-center gap-6">
+            <Link href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How it works</Link>
+            <Link href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
+            <Link href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</Link>
+            <Link href="/configure" className={buttonVariants({ size: 'sm' })}>Get started</Link>
+          </div>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="max-w-6xl mx-auto px-6 py-24 text-center">
+      <section className="relative overflow-hidden max-w-6xl mx-auto px-6 py-32 text-center">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at 50% 130%, oklch(0.50 0.18 322 / 0.22) 0%, transparent 62%)' }}
+        />
         <Badge variant="secondary" className="mb-6">Professional renders in under 60 minutes</Badge>
-        <h1 className="text-5xl font-bold tracking-tight leading-tight mb-6 max-w-3xl mx-auto">
+        <h1 className="text-6xl font-extrabold tracking-tight leading-[1.05] mb-6 max-w-3xl mx-auto">
           Photorealistic wine bottle imagery — without the photoshoot
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
           Upload your label, configure your bottle, and receive a studio-quality 3D render ready for e-commerce, marketing, and compliance — all for a flat fee per image.
         </p>
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-center gap-4 flex-wrap">
           <Link href="/configure" className={buttonVariants({ size: 'lg' })}>Create your render — $29</Link>
           <Link href="#how-it-works" className={buttonVariants({ variant: 'outline', size: 'lg' })}>See how it works</Link>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="bg-gray-50 border-y border-gray-100">
-        <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      {/* Stats — plum gradient */}
+      <section className="bg-plum">
+        <div className="max-w-6xl mx-auto px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {FEATURES.map((f) => (
             <div key={f.label}>
-              <div className="text-4xl font-bold mb-1">{f.number}</div>
-              <div className="text-sm text-gray-500">{f.label}</div>
+              <div className="text-5xl font-extrabold mb-1 text-white">{f.number}</div>
+              <div className="text-sm text-white/65">{f.label}</div>
             </div>
           ))}
         </div>
@@ -109,15 +115,15 @@ export default function HomePage() {
 
       {/* How it works */}
       <section id="how-it-works" className="max-w-6xl mx-auto px-6 py-24">
-        <h2 className="text-3xl font-bold mb-4 text-center">How it works</h2>
-        <p className="text-gray-500 text-center mb-16">Four steps from configuration to finished render.</p>
-        <div className="grid md:grid-cols-2 gap-8">
+        <h2 className="text-3xl font-bold mb-3 text-center">How it works</h2>
+        <p className="text-muted-foreground text-center mb-16">Four steps from configuration to finished render.</p>
+        <div className="grid md:grid-cols-2 gap-5">
           {STEPS.map((s) => (
-            <Card key={s.step} className="border-gray-100">
+            <Card key={s.step} className="border-border bg-card">
               <CardContent className="p-8">
-                <div className="text-5xl font-bold text-gray-100 mb-4">{s.step}</div>
+                <div className="text-5xl font-extrabold mb-4" style={{ color: 'oklch(0.50 0.18 322 / 0.25)' }}>{s.step}</div>
                 <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{s.desc}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
               </CardContent>
             </Card>
           ))}
@@ -125,14 +131,14 @@ export default function HomePage() {
       </section>
 
       {/* Use cases */}
-      <section className="bg-gray-50 border-y border-gray-100">
+      <section className="border-y border-border">
         <div className="max-w-6xl mx-auto px-6 py-20">
-          <h2 className="text-3xl font-bold mb-4 text-center">Built for every stage of your sales cycle</h2>
-          <p className="text-gray-500 text-center mb-12">From pre-release to point-of-sale.</p>
+          <h2 className="text-3xl font-bold mb-3 text-center">Built for every stage of your sales cycle</h2>
+          <p className="text-muted-foreground text-center mb-12">From pre-release to point-of-sale.</p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
             {USE_CASES.map((uc) => (
-              <div key={uc} className="flex items-center gap-3 bg-white rounded-lg border border-gray-100 px-4 py-3">
-                <div className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
+              <div key={uc} className="flex items-center gap-3 bg-card rounded-lg border border-border px-4 py-3">
+                <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: 'oklch(0.50 0.18 322)' }} />
                 <span className="text-sm">{uc}</span>
               </div>
             ))}
@@ -142,31 +148,36 @@ export default function HomePage() {
 
       {/* Pricing */}
       <section id="pricing" className="max-w-6xl mx-auto px-6 py-24 text-center">
-        <h2 className="text-3xl font-bold mb-4">Simple, flat-rate pricing</h2>
-        <p className="text-gray-500 mb-16">No subscription. No hidden fees. Pay per render.</p>
+        <h2 className="text-3xl font-bold mb-3">Simple, flat-rate pricing</h2>
+        <p className="text-muted-foreground mb-16">No subscription. No hidden fees. Pay per render.</p>
         <div className="flex flex-col md:flex-row gap-6 justify-center max-w-2xl mx-auto">
-          <Card className="flex-1 border-2 border-gray-900">
+          <Card className="flex-1 bg-card" style={{ borderColor: 'oklch(0.50 0.18 322 / 0.6)' }}>
             <CardContent className="p-8">
-              <div className="text-4xl font-bold mb-2">$29</div>
-              <div className="text-sm text-gray-500 mb-6">per image · first 10 orders</div>
+              <div className="text-4xl font-extrabold mb-2">$29</div>
+              <div className="text-sm text-muted-foreground mb-6">per image · first 10 orders</div>
               <Separator className="mb-6" />
-              <ul className="text-sm text-gray-600 space-y-2 text-left">
-                <li>✓ 2,160px PNG with transparent background</li>
-                <li>✓ Royalty-free</li>
-                <li>✓ Delivered in under 60 minutes</li>
-                <li>✓ 12M+ bottle configurations</li>
+              <ul className="text-sm text-muted-foreground space-y-2.5 text-left">
+                {['2,160px PNG with transparent background', 'Royalty-free', 'Delivered in under 60 minutes', '12M+ bottle configurations'].map(item => (
+                  <li key={item} className="flex gap-2 items-start">
+                    <span style={{ color: 'oklch(0.50 0.18 322)' }} className="font-bold mt-px">✓</span>
+                    {item}
+                  </li>
+                ))}
               </ul>
             </CardContent>
           </Card>
-          <Card className="flex-1 border border-gray-100">
+          <Card className="flex-1 border-border bg-card">
             <CardContent className="p-8">
-              <div className="text-4xl font-bold mb-2">$23</div>
-              <div className="text-sm text-gray-500 mb-6">per image · after 10 orders</div>
+              <div className="text-4xl font-extrabold mb-2">$23</div>
+              <div className="text-sm text-muted-foreground mb-6">per image · after 10 orders</div>
               <Separator className="mb-6" />
-              <ul className="text-sm text-gray-600 space-y-2 text-left">
-                <li>✓ Everything in the standard plan</li>
-                <li>✓ Volume discount applied automatically</li>
-                <li>✓ No commitment required</li>
+              <ul className="text-sm text-muted-foreground space-y-2.5 text-left">
+                {['Everything in the standard plan', 'Volume discount applied automatically', 'No commitment required'].map(item => (
+                  <li key={item} className="flex gap-2 items-start">
+                    <span style={{ color: 'oklch(0.50 0.18 322)' }} className="font-bold mt-px">✓</span>
+                    {item}
+                  </li>
+                ))}
               </ul>
             </CardContent>
           </Card>
@@ -177,30 +188,38 @@ export default function HomePage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="bg-gray-50 border-y border-gray-100">
+      <section id="faq" className="border-y border-border">
         <div className="max-w-3xl mx-auto px-6 py-24">
           <h2 className="text-3xl font-bold mb-12 text-center">Frequently asked questions</h2>
-          <div className="space-y-6">
+          <div className="space-y-4">
             {FAQS.map((faq) => (
-              <div key={faq.q} className="bg-white rounded-lg border border-gray-100 p-6">
+              <div key={faq.q} className="bg-card rounded-lg border border-border p-6">
                 <h3 className="font-semibold mb-2">{faq.q}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{faq.a}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Footer CTA */}
-      <section className="max-w-6xl mx-auto px-6 py-24 text-center">
-        <h2 className="text-3xl font-bold mb-4">Ready to create your first render?</h2>
-        <p className="text-gray-500 mb-8">Professional wine bottle imagery, delivered in under 60 minutes.</p>
-        <Link href="/configure" className={buttonVariants({ size: 'lg' })}>Get started — $29 per image</Link>
+      {/* Footer CTA — plum gradient */}
+      <section className="bg-plum">
+        <div className="max-w-6xl mx-auto px-6 py-24 text-center">
+          <h2 className="text-3xl font-bold mb-4 text-white">Ready to create your first render?</h2>
+          <p className="mb-8" style={{ color: 'oklch(0.96 0 0 / 0.65)' }}>Professional wine bottle imagery, delivered in under 60 minutes.</p>
+          <Link
+            href="/configure"
+            className="inline-flex items-center justify-center px-8 py-3 rounded-md bg-white font-semibold text-sm hover:bg-white/90 transition-colors"
+            style={{ color: 'oklch(0.27 0.12 322)' }}
+          >
+            Get started — $29 per image
+          </Link>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 px-6 py-8">
-        <div className="max-w-6xl mx-auto flex items-center justify-between text-sm text-gray-400">
+      <footer className="border-t border-border px-6 py-8">
+        <div className="max-w-6xl mx-auto flex items-center justify-between text-sm text-muted-foreground">
           <span>© 2026 WineRender</span>
           <span>Professional 3D wine bottle renders</span>
         </div>
