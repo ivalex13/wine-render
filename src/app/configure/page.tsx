@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useId } from 'react'
 import Link from 'next/link'
 import { Nav } from '@/components/nav'
 import { Button } from '@/components/ui/button'
@@ -79,9 +79,9 @@ const GEO: Record<string, BottleGeometry> = {
 function getGeometry(shapeId: string): BottleGeometry {
   if (shapeId.startsWith('sparkling')) return GEO.sparkling
   if (shapeId.startsWith('burgundy'))  return GEO.burgundy
-  if (shapeId === 'alsace-750' || shapeId.startsWith('hock')) return GEO.hock
+  if (shapeId === 'alsace-750' || shapeId.startsWith('hock') || shapeId.startsWith('tokaj')) return GEO.hock
   if (shapeId === 'provence-750')      return GEO.provence
-  if (shapeId.startsWith('port') || shapeId.startsWith('tokaj')) return GEO.port
+  if (shapeId.startsWith('port'))      return GEO.port
   return GEO.bordeaux
 }
 
@@ -112,6 +112,8 @@ function BottlePreview({
   labelUrl: string | null; posX: number; posY: number; scale: number
   width?: number; height?: number
 }) {
+  const uid = useId().replace(/:/g, '')
+  const clipId = `lclip-${uid}`
   const g = getGeometry(shapeId)
   const lcx = g.label.x + g.label.w / 2
   const lcy = g.label.y + g.label.h / 2
@@ -123,7 +125,7 @@ function BottlePreview({
       style={{ filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.5))' }}
     >
       <defs>
-        <clipPath id="lclip">
+        <clipPath id={clipId}>
           <rect x={g.label.x} y={g.label.y} width={g.label.w} height={g.label.h} rx="3" />
         </clipPath>
       </defs>
@@ -137,7 +139,7 @@ function BottlePreview({
 
       {/* Label */}
       {labelUrl ? (
-        <g clipPath="url(#lclip)">
+        <g clipPath={`url(#${clipId})`}>
           <g transform={`translate(${lcx + posX * 0.4},${lcy + posY * 0.4}) scale(${scale})`}>
             <image
               href={labelUrl}
@@ -193,23 +195,31 @@ function BottlePreview({
 
 const STEP_NAMES = ['Shape', 'Colors', 'Closure', 'Label', 'Review']
 
-function StepIndicator({ current, total }: { current: Step; total: number }) {
+function StepIndicator({ current, total, onGoTo }: { current: Step; total: number; onGoTo: (n: number) => void }) {
   return (
     <div className="flex items-start mb-10">
       {Array.from({ length: total }, (_, i) => i + 1).map((n) => (
         <div key={n} className={`flex items-start ${n < total ? 'flex-1' : ''}`}>
           <div className="flex flex-col items-center gap-2 flex-shrink-0">
             <div
+              onClick={() => n < current && onGoTo(n)}
               className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
                 n === current ? 'bg-primary text-primary-foreground'
-                : n < current ? 'bg-green-600 text-white'
+                : n < current ? 'bg-green-600 text-white cursor-pointer hover:bg-green-500'
                 : 'bg-muted text-muted-foreground'
               }`}
               style={n === current ? { boxShadow: '0 0 0 4px oklch(0.50 0.18 322 / 0.20)' } : {}}
             >
               {n < current ? '✓' : n}
             </div>
-            <span className={`text-xs font-medium ${n === current ? 'text-foreground' : 'text-muted-foreground'}`}>
+            <span
+              onClick={() => n < current && onGoTo(n)}
+              className={`text-xs font-medium transition-colors ${
+                n === current ? 'text-foreground'
+                : n < current ? 'text-muted-foreground cursor-pointer hover:text-foreground'
+                : 'text-muted-foreground'
+              }`}
+            >
               {STEP_NAMES[n - 1]}
             </span>
           </div>
@@ -276,7 +286,7 @@ function SelectionGrid<T extends { id: string; name: string }>({
           }`}
         >
           {renderItem?.(item)}
-          <div className={`text-sm font-medium mt-2 ${selected === item.id ? 'text-foreground' : 'text-muted-foreground'}`}>
+          <div className={`text-xs font-medium mt-2 leading-tight line-clamp-2 ${selected === item.id ? 'text-foreground' : 'text-muted-foreground'}`}>
             {item.name}
           </div>
         </button>
@@ -318,6 +328,7 @@ export default function ConfigurePage() {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [orderId, setOrderId] = useState<string | null>(null)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [labelUrl, setLabelUrl] = useState<string | null>(null)
 
   const [config, setConfig] = useState<Config>({
@@ -391,8 +402,9 @@ export default function ConfigurePage() {
       }).select().single()
       if (error) throw error
       setOrderId(data.id)
+      setSubmitError(null)
     } catch {
-      alert('Something went wrong. Please try again.')
+      setSubmitError('Something went wrong. Please try again.')
     } finally {
       setSubmitting(false)
     }
@@ -451,7 +463,7 @@ export default function ConfigurePage() {
         </div>
 
         <Progress value={(step / 5) * 100} className="mb-10 h-1.5" />
-        <StepIndicator current={step} total={5} />
+        <StepIndicator current={step} total={5} onGoTo={(n) => setStep(n as Step)} />
 
         <div className="grid md:grid-cols-3 gap-8">
 
@@ -664,6 +676,9 @@ export default function ConfigurePage() {
                         >
                           {submitting ? 'Submitting…' : 'Pay $29.00 and submit'}
                         </Button>
+                        {submitError && (
+                          <p className="text-sm text-red-400 text-center mt-3">{submitError}</p>
+                        )}
                         <p className="text-xs text-muted-foreground text-center mt-3">
                           Payment processing coming soon — order will be created and we&apos;ll contact you.
                         </p>
