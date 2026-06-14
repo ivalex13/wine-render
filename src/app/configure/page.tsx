@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
+import { Nav } from '@/components/nav'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -227,13 +228,7 @@ export default function ConfigurePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <nav className="bg-card border-b border-border px-6 py-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <Link href="/" className="font-bold text-lg tracking-tight">WineRender</Link>
-          <span className="text-sm text-muted-foreground">$29 per image</span>
-        </div>
-      </nav>
+      <Nav />
 
       <div className="max-w-5xl mx-auto px-6 py-12">
         <div className="mb-8">

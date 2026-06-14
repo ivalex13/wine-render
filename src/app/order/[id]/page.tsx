@@ -2,6 +2,7 @@ import { supabase } from '@/lib/supabase'
 import { Card, CardContent } from '@/components/ui/card'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import { Nav } from '@/components/nav'
 
 const STATUS_LABELS: Record<string, { label: string; description: string; color: string }> = {
   pending_payment: {
@@ -52,11 +53,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="bg-card border-b border-border px-6 py-4">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <Link href="/" className="font-bold text-lg tracking-tight">WineRender</Link>
-        </div>
-      </nav>
+      <Nav />
 
       <div className="max-w-3xl mx-auto px-6 py-12">
         <div className="mb-8">
