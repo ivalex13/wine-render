@@ -26,23 +26,33 @@ interface Config {
   email: string
 }
 
+const STEP_NAMES = ['Shape', 'Colors', 'Closure', 'Label', 'Review']
+
 function StepIndicator({ current, total }: { current: Step; total: number }) {
   return (
-    <div className="flex items-center gap-3 mb-8">
+    <div className="flex items-start mb-10">
       {Array.from({ length: total }, (_, i) => i + 1).map((n) => (
-        <div key={n} className="flex items-center gap-3">
-          <div
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-              n === current
-                ? 'bg-primary text-primary-foreground'
-                : n < current
-                ? 'bg-green-600 text-white'
-                : 'bg-muted text-muted-foreground'
-            }`}
-          >
-            {n < current ? '✓' : n}
+        <div key={n} className={`flex items-start ${n < total ? 'flex-1' : ''}`}>
+          <div className="flex flex-col items-center gap-2 flex-shrink-0">
+            <div
+              className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
+                n === current
+                  ? 'bg-primary text-primary-foreground'
+                  : n < current
+                  ? 'bg-green-600 text-white'
+                  : 'bg-muted text-muted-foreground'
+              }`}
+              style={n === current ? { boxShadow: '0 0 0 4px oklch(0.50 0.18 322 / 0.20)' } : {}}
+            >
+              {n < current ? '✓' : n}
+            </div>
+            <span className={`text-xs font-medium ${n === current ? 'text-foreground' : 'text-muted-foreground'}`}>
+              {STEP_NAMES[n - 1]}
+            </span>
           </div>
-          {n < total && <div className={`h-px w-8 ${n < current ? 'bg-green-600' : 'bg-border'}`} />}
+          {n < total && (
+            <div className={`h-px flex-1 mt-4 mx-2 ${n < current ? 'bg-green-600' : 'bg-border'}`} />
+          )}
         </div>
       ))}
     </div>
@@ -66,14 +76,14 @@ function SelectionGrid<T extends { id: string; name: string }>({
         <button
           key={item.id}
           onClick={() => onSelect(item.id)}
-          className={`p-4 rounded-lg border-2 text-left transition-all ${
+          className={`p-4 rounded-xl border-2 text-left transition-all ${
             selected === item.id
               ? 'border-primary bg-primary/10'
-              : 'border-border hover:border-border/60 bg-muted/30'
+              : 'border-border hover:border-primary/30 bg-muted/20'
           }`}
         >
           {renderItem ? renderItem(item) : null}
-          <div className="text-sm font-medium mt-2">{item.name}</div>
+          <div className={`text-sm font-medium mt-2 ${selected === item.id ? 'text-foreground' : 'text-muted-foreground'}`}>{item.name}</div>
         </button>
       ))}
     </div>
@@ -236,7 +246,7 @@ export default function ConfigurePage() {
           <p className="text-muted-foreground text-sm">Customize every detail, then upload your label and submit.</p>
         </div>
 
-        <Progress value={(step / 5) * 100} className="mb-8 h-1" />
+        <Progress value={(step / 5) * 100} className="mb-10 h-1.5" />
         <StepIndicator current={step} total={5} />
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -247,7 +257,8 @@ export default function ConfigurePage() {
                 {/* Step 1: Bottle shape */}
                 {step === 1 && (
                   <div>
-                    <h2 className="text-lg font-semibold mb-4">Select bottle shape</h2>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Step 1 of 5</p>
+                    <h2 className="text-xl font-bold mb-6">Select bottle shape</h2>
                     {Object.entries(shapesByCategory).map(([cat, shapes]) => (
                       <div key={cat} className="mb-6">
                         <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">{cat}</div>
@@ -265,7 +276,8 @@ export default function ConfigurePage() {
                 {step === 2 && (
                   <div>
                     <div className="mb-8">
-                      <h2 className="text-lg font-semibold mb-4">Glass color</h2>
+                      <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Step 2 of 5</p>
+                      <h2 className="text-xl font-bold mb-6">Glass color</h2>
                       <SelectionGrid
                         items={glassColors}
                         selected={config.glassColorId}
@@ -298,7 +310,8 @@ export default function ConfigurePage() {
                 {/* Step 3: Closure */}
                 {step === 3 && (
                   <div>
-                    <h2 className="text-lg font-semibold mb-4">Closure finish</h2>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Step 3 of 5</p>
+                    <h2 className="text-xl font-bold mb-6">Closure finish</h2>
                     {Object.entries(closuresByCategory).map(([cat, closures]) => (
                       <div key={cat} className="mb-6">
                         <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">{cat}</div>
@@ -315,7 +328,8 @@ export default function ConfigurePage() {
                 {/* Step 4: Label */}
                 {step === 4 && (
                   <div>
-                    <h2 className="text-lg font-semibold mb-2">Upload your label</h2>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Step 4 of 5</p>
+                    <h2 className="text-xl font-bold mb-1">Upload your label</h2>
                     <p className="text-sm text-muted-foreground mb-6">PNG with transparent background recommended. Max 20MB.</p>
 
                     <div
@@ -407,7 +421,8 @@ export default function ConfigurePage() {
                       </div>
                     ) : (
                       <div>
-                        <h2 className="text-lg font-semibold mb-6">Review and pay</h2>
+                        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Step 5 of 5</p>
+                        <h2 className="text-xl font-bold mb-6">Review and pay</h2>
 
                         <div className="bg-muted rounded-lg p-4 mb-6 space-y-2 text-sm">
                           <div className="flex justify-between">

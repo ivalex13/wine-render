@@ -6,22 +6,24 @@ import type { BottleShape, GlassColor, LiquidShade, ClosureFinish } from '@/type
 
 function Swatch({ color, name }: { color: string; name: string }) {
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-2.5">
       <div
-        className="w-12 h-12 rounded-full border border-border"
-        style={{ backgroundColor: color }}
+        className="w-14 h-14 rounded-full border border-border"
+        style={{ backgroundColor: color, boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
       />
-      <span className="text-xs text-muted-foreground text-center leading-tight">{name}</span>
+      <span className="text-xs text-muted-foreground text-center leading-tight max-w-[64px]">{name}</span>
     </div>
   )
 }
 
 function BottleSvg({ glassColor }: { glassColor: string }) {
   return (
-    <svg width="36" height="80" viewBox="0 0 120 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M35 80 Q30 90 28 110 L25 250 Q25 260 60 260 Q95 260 95 250 L92 110 Q90 90 85 80 Z" fill={glassColor} opacity="0.85" />
-      <rect x="48" y="30" width="24" height="52" rx="4" fill={glassColor} opacity="0.85" />
-      <rect x="50" y="15" width="20" height="18" rx="3" fill="#8B7355" />
+    <svg width="52" height="118" viewBox="0 0 120 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M36 82 Q30 93 28 113 L25 252 Q25 264 60 264 Q95 264 95 252 L92 113 Q90 93 84 82 Z" fill={glassColor} opacity="0.87" />
+      <path d="M36 82 Q30 93 28 113 L28 202 Q31 213 60 213 Q89 213 92 202 L92 113 Q90 93 84 82 Z" fill="#8B1A2E" opacity="0.45" />
+      <rect x="34" y="136" width="52" height="56" rx="2" fill="white" opacity="0.88" />
+      <rect x="49" y="30" width="22" height="54" rx="4" fill={glassColor} opacity="0.87" />
+      <rect x="51" y="13" width="18" height="20" rx="3" fill="oklch(0.50 0.18 322)" />
     </svg>
   )
 }
@@ -74,11 +76,11 @@ export default async function LibraryPage() {
           {Object.entries(shapesByCategory).map(([category, categoryShapes]) => (
             <div key={category} className="mb-10">
               <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-6">{category}</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {categoryShapes.map((shape) => (
-                  <div key={shape.id} className="bg-card border border-border rounded-lg p-4 flex flex-col items-center gap-3">
-                    <BottleSvg glassColor="#4A6741" />
-                    <span className="text-xs text-center text-muted-foreground leading-tight">{shape.name}</span>
+                  <div key={shape.id} className="bg-card border border-border rounded-xl p-5 flex flex-col items-center gap-4 hover:border-primary/40 transition-colors">
+                    <BottleSvg glassColor="#3a5e38" />
+                    <span className="text-xs text-center text-muted-foreground leading-tight font-medium">{shape.name}</span>
                   </div>
                 ))}
               </div>
@@ -97,7 +99,7 @@ export default async function LibraryPage() {
             </Link>
           </div>
           <p className="text-muted-foreground text-sm mb-10">{glassColors.length} options — from clear flint to cobalt blue.</p>
-          <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-6">
+          <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-6">
             {glassColors.map((color) => (
               <Swatch key={color.id} color={color.hex_preview ?? '#888'} name={color.name} />
             ))}
@@ -115,7 +117,7 @@ export default async function LibraryPage() {
             </Link>
           </div>
           <p className="text-muted-foreground text-sm mb-10">{liquidShades.length} shades — reds, whites, rosé, orange, and specialty.</p>
-          <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-6">
+          <div className="grid grid-cols-4 md:grid-cols-7 lg:grid-cols-8 gap-6">
             {liquidShades.map((shade) => (
               <Swatch key={shade.id} color={shade.hex_preview ?? '#888'} name={shade.name} />
             ))}
