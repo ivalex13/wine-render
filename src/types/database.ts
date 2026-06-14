@@ -33,16 +33,19 @@ export type Database = {
       closure_finishes: {
         Row: {
           category: string
+          hex_preview: string | null
           id: string
           name: string
         }
         Insert: {
           category: string
+          hex_preview?: string | null
           id: string
           name: string
         }
         Update: {
           category?: string
+          hex_preview?: string | null
           id?: string
           name?: string
         }
