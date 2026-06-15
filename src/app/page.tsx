@@ -1,66 +1,101 @@
 import Link from 'next/link'
-import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Nav } from '@/components/nav'
 
-// ─── Gradient hero bottle ─────────────────────────────────────────────────────
+// ─── Realistic glass bottle ───────────────────────────────────────────────────
 
 function HeroBottle({
-  glass, liquid, capsule = 'oklch(0.50 0.18 322)', height = 260, uid,
+  glass, liquid, capsule = '#3a1a4a', height = 260, uid,
 }: {
   glass: string; liquid: string; capsule?: string; height?: number; uid: string
 }) {
-  const w = Math.round(height * 0.43)
-  const bId = `b-${uid}`, lId = `l-${uid}`, nId = `n-${uid}`
+  const w = Math.round(height * 0.40)
+  const body = `b-${uid}`, liq = `q-${uid}`, cap = `c-${uid}`,
+        lbl = `l-${uid}`, sheen = `s-${uid}`, shadow = `sh-${uid}`,
+        clip = `cl-${uid}`
   return (
-    <div style={{ filter: 'drop-shadow(0 32px 64px rgba(0,0,0,0.6))' }}>
-      <svg width={w} height={height} viewBox="0 0 120 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id={bId} x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stopColor="white" stopOpacity="0.22" />
-            <stop offset="16%"  stopColor={glass} stopOpacity="0.74" />
-            <stop offset="56%"  stopColor={glass} stopOpacity="0.93" />
-            <stop offset="83%"  stopColor={glass} stopOpacity="0.76" />
-            <stop offset="100%" stopColor="white" stopOpacity="0.10" />
-          </linearGradient>
-          <linearGradient id={lId} x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stopColor="black"  stopOpacity="0.28" />
-            <stop offset="36%"  stopColor={liquid} stopOpacity="0.88" />
-            <stop offset="72%"  stopColor={liquid} stopOpacity="0.70" />
-            <stop offset="100%" stopColor="black"  stopOpacity="0.22" />
-          </linearGradient>
-          <linearGradient id={nId} x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stopColor="white" stopOpacity="0.18" />
-            <stop offset="50%"  stopColor={glass} stopOpacity="0.92" />
-            <stop offset="100%" stopColor="white" stopOpacity="0.08" />
-          </linearGradient>
-        </defs>
-        {/* body */}
-        <path d="M36 82 Q30 93 28 113 L25 252 Q25 264 60 264 Q95 264 95 252 L92 113 Q90 93 84 82 Z"
-          fill={`url(#${bId})`} />
+    <svg width={w} height={height} viewBox="0 0 120 300" fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ filter: 'drop-shadow(0 26px 40px rgba(0,0,0,0.55))', overflow: 'visible' }}>
+      <defs>
+        {/* cylindrical glass shading + vertical specular bands */}
+        <linearGradient id={body} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor="#000"  stopOpacity="0.55" />
+          <stop offset="9%"   stopColor={glass} stopOpacity="0.7" />
+          <stop offset="22%"  stopColor={glass} stopOpacity="0.98" />
+          <stop offset="34%"  stopColor="#fff"  stopOpacity="0.5" />
+          <stop offset="44%"  stopColor={glass} stopOpacity="0.98" />
+          <stop offset="64%"  stopColor={glass} stopOpacity="0.85" />
+          <stop offset="80%"  stopColor="#fff"  stopOpacity="0.16" />
+          <stop offset="90%"  stopColor={glass} stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#000"  stopOpacity="0.6" />
+        </linearGradient>
+        <linearGradient id={liq} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor="#000"   stopOpacity="0.45" />
+          <stop offset="20%"  stopColor={liquid} stopOpacity="0.95" />
+          <stop offset="36%"  stopColor="#fff"   stopOpacity="0.28" />
+          <stop offset="50%"  stopColor={liquid} stopOpacity="0.95" />
+          <stop offset="78%"  stopColor={liquid} stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#000"   stopOpacity="0.4" />
+        </linearGradient>
+        <linearGradient id={cap} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor="#000"    stopOpacity="0.4" />
+          <stop offset="30%"  stopColor={capsule} stopOpacity="1" />
+          <stop offset="44%"  stopColor="#fff"    stopOpacity="0.45" />
+          <stop offset="58%"  stopColor={capsule} stopOpacity="1" />
+          <stop offset="100%" stopColor="#000"    stopOpacity="0.45" />
+        </linearGradient>
+        <linearGradient id={lbl} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stopColor="#fff" />
+          <stop offset="100%" stopColor="#ece7df" />
+        </linearGradient>
+        <linearGradient id={sheen} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stopColor="#fff" stopOpacity="0" />
+          <stop offset="18%"  stopColor="#fff" stopOpacity="0.5" />
+          <stop offset="82%"  stopColor="#fff" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+        </linearGradient>
+        <radialGradient id={shadow} cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%"   stopColor="#000" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#000" stopOpacity="0" />
+        </radialGradient>
+        <clipPath id={clip}>
+          <path d="M50 40 L50 86 Q40 92 35 118 L33 280 Q33 291 60 291 Q87 291 87 280 L85 118 Q80 92 70 86 L70 40 Z" />
+        </clipPath>
+      </defs>
+
+      {/* ground shadow */}
+      <ellipse cx="60" cy="293" rx="40" ry="7" fill={`url(#${shadow})`} />
+
+      {/* glass + contents, clipped to silhouette */}
+      <g clipPath={`url(#${clip})`}>
+        <rect x="30" y="36" width="60" height="258" fill={`url(#${body})`} />
         {/* liquid */}
-        <path d="M36 82 Q30 93 28 113 L28 202 Q31 213 60 213 Q89 213 92 202 L92 113 Q90 93 84 82 Z"
-          fill={`url(#${lId})`} />
+        <path d="M35 116 Q42 108 60 108 Q78 108 85 116 L87 280 Q87 291 60 291 Q33 291 33 280 Z"
+          fill={`url(#${liq})`} />
         {/* label */}
-        <rect x="33" y="136" width="54" height="62" rx="3" fill="white" opacity="0.93" />
-        <rect x="40" y="148" width="40" height="2.5" rx="1.25" fill="#bbb" opacity="0.5" />
-        <rect x="40" y="157" width="28" height="2.5" rx="1.25" fill="#bbb" opacity="0.5" />
-        <rect x="40" y="166" width="34" height="2.5" rx="1.25" fill="#bbb" opacity="0.5" />
-        <rect x="40" y="175" width="22" height="2.5" rx="1.25" fill="#bbb" opacity="0.5" />
-        {/* left edge highlight streak */}
-        <path d="M36 82 Q30 93 28 113 L27 205" fill="none" stroke="white" strokeWidth="2.5" strokeOpacity="0.14" strokeLinecap="round" />
-        {/* neck */}
-        <rect x="49" y="30" width="22" height="54" rx="4" fill={`url(#${nId})`} />
-        <rect x="49" y="30" width="22" height="54" rx="4" fill="none" stroke="white" strokeWidth="0.8" strokeOpacity="0.10" />
-        {/* capsule */}
-        <rect x="51" y="13" width="18" height="20" rx="3" fill={capsule} />
-        <rect x="53" y="15" width="4" height="15" rx="2" fill="white" opacity="0.18" />
-        {/* shoulder sheen */}
-        <path d="M36 82 Q30 93 28 113 L30 113 Q32 95 38 84 Z" fill="white" opacity="0.07" />
-      </svg>
-    </div>
+        <rect x="36" y="150" width="48" height="64" rx="2" fill={`url(#${lbl})`} />
+        <rect x="36" y="150" width="48" height="64" rx="2" fill="none" stroke="#caa84a" strokeOpacity="0.45" strokeWidth="0.6" />
+        <rect x="44" y="162" width="32" height="2" rx="1" fill="#caa84a" opacity="0.75" />
+        <rect x="48" y="170" width="24" height="1.6" rx="0.8" fill="#8a8378" opacity="0.55" />
+        <circle cx="60" cy="186" r="6" fill="none" stroke="#caa84a" strokeOpacity="0.5" strokeWidth="0.8" />
+        <rect x="50" y="200" width="20" height="1.4" rx="0.7" fill="#8a8378" opacity="0.5" />
+        <rect x="53" y="205" width="14" height="1.4" rx="0.7" fill="#8a8378" opacity="0.5" />
+        {/* soft cylindrical sheen sweeping the whole bottle */}
+        <rect x="38" y="36" width="9"  height="258" fill={`url(#${sheen})`} opacity="0.85" />
+        <rect x="73" y="36" width="3.5" height="258" fill={`url(#${sheen})`} opacity="0.4" />
+      </g>
+
+      {/* glass outline for crispness */}
+      <path d="M50 40 L50 86 Q40 92 35 118 L33 280 Q33 291 60 291 Q87 291 87 280 L85 118 Q80 92 70 86 L70 40 Z"
+        fill="none" stroke="#fff" strokeOpacity="0.08" strokeWidth="1" />
+
+      {/* capsule */}
+      <path d="M49 21 L49 50 L71 50 L71 21 Q71 16 60 16 Q49 16 49 21 Z" fill={`url(#${cap})`} />
+      <rect x="49" y="47" width="22" height="2" fill="#000" opacity="0.25" />
+    </svg>
   )
 }
 
@@ -88,11 +123,11 @@ const USE_CASES = [
 
 const GALLERY = [
   { glass: '#1E3B2A', liquid: '#5C0F1C', capsule: '#1A1A1A', wine: 'Cabernet Sauvignon', bottle: 'Bordeaux 750ml' },
-  { glass: '#F5F5F0', liquid: '#F0E070', capsule: '#C0C0C0', wine: 'Chardonnay',          bottle: 'Burgundy 750ml' },
+  { glass: '#E8E4D8', liquid: '#E6CE58', capsule: '#C0C0C0', wine: 'Chardonnay',          bottle: 'Burgundy 750ml' },
   { glass: '#1A3A6B', liquid: '#F0C4C0', capsule: '#C5A028', wine: 'Provence Rosé',       bottle: 'Provence 750ml' },
   { glass: '#4A6741', liquid: '#8B1A2E', capsule: '#8B1A1A', wine: 'Pinot Noir',          bottle: 'Burgundy 375ml' },
-  { glass: '#F5F5F0', liquid: '#D08848', capsule: '#B87333', wine: 'Orange Wine',         bottle: 'Alsace 750ml'   },
-  { glass: '#1A1A1A', liquid: '#EBE6C4', capsule: '#C5A028', wine: 'Blanc de Blancs',    bottle: 'Sparkling 750ml' },
+  { glass: '#E8E4D8', liquid: '#CC7A38', capsule: '#B87333', wine: 'Orange Wine',         bottle: 'Alsace 750ml'   },
+  { glass: '#15151A', liquid: '#E2DCB8', capsule: '#C5A028', wine: 'Blanc de Blancs',    bottle: 'Sparkling 750ml' },
 ]
 
 const TESTIMONIALS = [
@@ -143,6 +178,11 @@ const DiamondIcon = () => (
   </svg>
 )
 
+// Small gold rule used under eyebrows
+const GoldRule = () => (
+  <span className="inline-block h-px w-8 align-middle mr-3" style={{ background: 'var(--gold)' }} />
+)
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -151,29 +191,29 @@ export default function HomePage() {
       <Nav />
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden grain">
         {/* dot grid */}
         <div className="absolute inset-0 pointer-events-none" style={{
           backgroundImage: 'radial-gradient(circle, oklch(1 0 0 / 0.045) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
+          backgroundSize: '30px 30px',
+          maskImage: 'radial-gradient(ellipse 80% 70% at 60% 40%, #000 40%, transparent 100%)',
         }} />
-        {/* left glow */}
+        {/* glows */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse at 15% 75%, oklch(0.50 0.18 322 / 0.20) 0%, transparent 52%)',
-        }} />
-        {/* right glow */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse at 80% 60%, oklch(0.50 0.18 322 / 0.12) 0%, transparent 45%)',
+          background: 'radial-gradient(ellipse at 18% 70%, oklch(0.50 0.18 322 / 0.22) 0%, transparent 50%), radial-gradient(ellipse at 82% 55%, oklch(0.55 0.15 60 / 0.10) 0%, transparent 45%)',
         }} />
 
-        <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center relative">
+        <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center relative z-10">
           <div>
-            <Badge variant="secondary" className="mb-6">No photoshoot. No samples. No waiting.</Badge>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.05] mb-6">
+            <div className="inline-flex items-center gap-2 mb-7 px-3 py-1.5 rounded-full border border-border bg-card/60 backdrop-blur text-xs font-medium text-muted-foreground">
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--gold)' }} />
+              No photoshoot. No samples. No waiting.
+            </div>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.04] mb-6">
               Instant bottle shots,{' '}
-              <span style={{ color: 'oklch(0.68 0.18 322)' }}>ready to sell.</span>
+              <span className="italic font-normal" style={{ color: 'oklch(0.72 0.16 322)' }}>ready to sell.</span>
             </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground mb-10 leading-relaxed">
+            <p className="text-lg text-muted-foreground mb-9 leading-relaxed max-w-md">
               Built for online listings, sales materials, and distributor presentations.
               True 3D rendering — not AI, not mockups.
             </p>
@@ -185,27 +225,28 @@ export default function HomePage() {
                 Browse 150+ shapes & colors
               </Link>
             </div>
-            {/* social proof nudge */}
-            <div className="mt-8 space-y-1">
-              <p className="text-xs text-muted-foreground">Trusted by 200+ wine producers across 14 countries</p>
+            <div className="mt-8 space-y-1.5">
+              <p className="text-xs text-muted-foreground flex items-center gap-2">
+                <span className="text-gold">★★★★★</span>
+                Trusted by 200+ wine producers across 14 countries
+              </p>
               <p className="text-xs text-muted-foreground/60">2,160px PNG · transparent background · delivered in &lt;60 min</p>
             </div>
           </div>
 
           {/* Bottles */}
-          <div className="hidden md:flex justify-center items-end gap-5 pb-6 relative">
-            {/* glow behind bottles */}
-            <div className="absolute inset-x-0 bottom-0 h-48 pointer-events-none" style={{
-              background: 'radial-gradient(ellipse at 50% 100%, oklch(0.50 0.18 322 / 0.30) 0%, transparent 65%)',
+          <div className="hidden md:flex justify-center items-end gap-4 pb-4 relative">
+            <div className="absolute inset-x-0 bottom-0 h-56 pointer-events-none" style={{
+              background: 'radial-gradient(ellipse at 50% 100%, oklch(0.50 0.18 322 / 0.32) 0%, transparent 62%)',
             }} />
-            <div className="animate-float-slower">
-              <HeroBottle glass="#1a3a20" liquid="#6B1A1A" height={220} uid="h0" />
+            <div className="animate-float-slower relative z-10">
+              <HeroBottle glass="#16331d" liquid="#5e1414" capsule="#1a1a1a" height={224} uid="h0" />
             </div>
-            <div className="animate-float">
-              <HeroBottle glass="#c8bfa0" liquid="#C9963A" capsule="#5B4A2E" height={310} uid="h1" />
+            <div className="animate-float relative z-20">
+              <HeroBottle glass="#d8d0b4" liquid="#c98f2f" capsule="#5B4A2E" height={312} uid="h1" />
             </div>
-            <div className="animate-float-slow">
-              <HeroBottle glass="#1e2d50" liquid="#D4899A" capsule="#4A2060" height={255} uid="h2" />
+            <div className="animate-float-slow relative z-10">
+              <HeroBottle glass="#1c2a4e" liquid="#d4899a" capsule="#3a1a4a" height={256} uid="h2" />
             </div>
           </div>
         </div>
@@ -216,7 +257,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6 py-10 md:py-14 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
           {STATS.map((s) => (
             <div key={s.label}>
-              <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-1 text-white">{s.number}</div>
+              <div className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold mb-1 text-white">{s.number}</div>
               <div className="text-xs sm:text-sm text-white/65">{s.label}</div>
             </div>
           ))}
@@ -226,12 +267,12 @@ export default function HomePage() {
       {/* ── Pain point ───────────────────────────────────────────────────── */}
       <section className="border-b border-border" style={{ background: 'oklch(0.155 0.006 285)' }}>
         <div className="max-w-5xl mx-auto px-6 py-24">
-          <h2 className="text-4xl font-extrabold mb-16 text-center">
+          <h2 className="font-display text-4xl font-semibold mb-16 text-center leading-tight max-w-3xl mx-auto">
             Great bottle photography is slow, expensive, and fragile.
           </h2>
           <div className="grid md:grid-cols-[1fr_1px_1fr] gap-0">
             <div className="md:pr-12">
-              <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-7">The old way</div>
+              <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-7"><GoldRule />The old way</div>
               <ul className="space-y-5">
                 {['Physical sample bottle needed', 'Shipping to a studio — and back', 'Scheduling a photoshoot', 'Days of retouching', 'Weeks of waiting', 'Hundreds or thousands of dollars'].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-muted-foreground">
@@ -244,13 +285,13 @@ export default function HomePage() {
             <div className="hidden md:block bg-border mx-6" />
             <div className="block md:hidden border-t border-border mt-10 mb-0" />
             <div className="pl-0 md:pl-12 mt-10 md:mt-0">
-              <div className="text-xs font-semibold uppercase tracking-widest mb-7" style={{ color: 'oklch(0.68 0.15 322)' }}>
-                With WineRender
+              <div className="text-xs font-semibold uppercase tracking-widest mb-7" style={{ color: 'oklch(0.72 0.14 322)' }}>
+                <span className="inline-block h-px w-8 align-middle mr-3" style={{ background: 'oklch(0.50 0.18 322)' }} />With WineRender
               </div>
               <ul className="space-y-5">
                 {['Label file only — no physical bottle', 'Upload from anywhere, anytime', 'No scheduling, no studio', 'Delivered in under 60 minutes', 'Ready to use immediately', '$29 flat, no hidden fees'].map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <span className="font-bold text-base leading-5 flex-shrink-0" style={{ color: 'oklch(0.50 0.18 322)' }}>✓</span>
+                    <span className="font-bold text-base leading-5 flex-shrink-0" style={{ color: 'oklch(0.62 0.16 322)' }}>✓</span>
                     <span className="text-sm leading-5">{item}</span>
                   </li>
                 ))}
@@ -261,12 +302,12 @@ export default function HomePage() {
       </section>
 
       {/* ── Tech differentiator ──────────────────────────────────────────── */}
-      <section className="border-b border-border" style={{ background: 'oklch(0.14 0.012 310)' }}>
-        <div className="max-w-5xl mx-auto px-6 py-24 text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-8">Why it looks real</p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 leading-[1.1]">
-            True 3D rendering —<br />
-            <span style={{ color: 'oklch(0.68 0.18 322)' }}>indistinguishable from a studio shot.</span>
+      <section className="border-b border-border relative overflow-hidden grain" style={{ background: 'oklch(0.14 0.012 310)' }}>
+        <div className="max-w-5xl mx-auto px-6 py-24 text-center relative z-10">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-8"><GoldRule />Why it looks real</p>
+          <h2 className="font-display text-4xl sm:text-5xl font-semibold mb-6 leading-[1.08]">
+            Not a mockup. Not AI.<br />
+            <span className="italic font-normal" style={{ color: 'oklch(0.72 0.16 322)' }}>Just real 3D rendering.</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-16">
             Every image is built from a fully 3D model. Light wraps around the bottle correctly.
@@ -279,8 +320,8 @@ export default function HomePage() {
               { icon: <PrismIcon />, title: 'Glass refraction',        desc: 'The liquid color interacts with the glass shade. 12 glass types × 25+ liquid shades = real visual combinations.' },
               { icon: <DiamondIcon />, title: '10+ years of 3D expertise', desc: 'Built on the same infrastructure used for professional wine photography studios.' },
             ].map((item) => (
-              <div key={item.title} className="bg-card border border-border rounded-xl p-6">
-                <div className="w-10 h-10 rounded-xl mb-5 flex items-center justify-center" style={{ background: 'oklch(0.50 0.18 322 / 0.18)', color: 'oklch(0.68 0.18 322)' }}>
+              <div key={item.title} className="bg-card border border-border rounded-2xl p-6 hover:border-primary/40 transition-colors">
+                <div className="w-11 h-11 rounded-xl mb-5 flex items-center justify-center" style={{ background: 'oklch(0.50 0.18 322 / 0.18)', color: 'oklch(0.72 0.16 322)' }}>
                   {item.icon}
                 </div>
                 <div className="font-semibold mb-2">{item.title}</div>
@@ -293,16 +334,17 @@ export default function HomePage() {
 
       {/* ── How it works ─────────────────────────────────────────────────── */}
       <section id="how-it-works" className="max-w-6xl mx-auto px-6 py-24">
-        <h2 className="text-3xl font-bold mb-3 text-center">How it works</h2>
+        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground text-center mb-4"><GoldRule />The process</p>
+        <h2 className="font-display text-4xl font-semibold mb-3 text-center">How it works</h2>
         <p className="text-muted-foreground text-center mb-16">Four steps from label file to finished render.</p>
         <div className="grid md:grid-cols-2 gap-5">
           {STEPS.map((s, i) => (
-            <Card key={s.step} className="border-border bg-card overflow-hidden">
+            <Card key={s.step} className="border-border bg-card overflow-hidden hover:border-primary/30 transition-colors">
               <CardContent className="p-0">
                 <div className="h-0.5 w-full" style={{ background: `oklch(0.50 0.18 322 / ${0.3 + i * 0.12})` }} />
                 <div className="p-5 sm:p-8">
-                  <div className="text-4xl font-extrabold mb-5 leading-none" style={{ color: 'oklch(0.50 0.18 322 / 0.5)' }}>{s.step}</div>
-                  <h3 className="text-lg sm:text-xl font-bold mb-2">{s.title}</h3>
+                  <div className="font-display text-5xl sm:text-6xl font-semibold mb-5 leading-none" style={{ color: 'oklch(0.50 0.18 322 / 0.4)' }}>{s.step}</div>
+                  <h3 className="font-display text-lg sm:text-xl font-semibold mb-2">{s.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
                 </div>
               </CardContent>
@@ -312,12 +354,15 @@ export default function HomePage() {
       </section>
 
       {/* ── Gallery ──────────────────────────────────────────────────────── */}
-      <section className="border-y border-border" style={{ background: 'oklch(0.13 0.010 300)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-24">
+      <section className="border-y border-border relative overflow-hidden" style={{ background: 'oklch(0.13 0.010 300)' }}>
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: 'radial-gradient(ellipse at 50% 0%, oklch(0.50 0.18 322 / 0.12) 0%, transparent 55%)',
+        }} />
+        <div className="max-w-6xl mx-auto px-6 py-24 relative z-10">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground text-center mb-4">
-            Sample outputs
+            <GoldRule />Sample outputs
           </p>
-          <h2 className="text-3xl font-bold text-center mb-3">See what's possible</h2>
+          <h2 className="font-display text-3xl sm:text-4xl font-semibold text-center mb-3">See what&apos;s possible</h2>
           <p className="text-muted-foreground text-center mb-4 text-sm font-medium">
             150+ bottle shapes × 12 glass colors × 25+ liquid shades × 150+ closures
           </p>
@@ -327,10 +372,10 @@ export default function HomePage() {
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {GALLERY.map((config, i) => (
-              <div key={i} className="flex flex-col items-center gap-3">
+              <div key={i} className="flex flex-col items-center gap-3 group">
                 <div
-                  className="bg-card border border-border rounded-2xl p-5 w-full flex justify-center hover:border-primary/40 transition-all hover:-translate-y-1"
-                  style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
+                  className="bg-gradient-to-b from-card to-card/40 border border-border rounded-2xl p-5 w-full flex justify-center transition-all duration-300 group-hover:border-primary/50 group-hover:-translate-y-1.5"
+                  style={{ boxShadow: '0 10px 36px rgba(0,0,0,0.45)' }}
                 >
                   <HeroBottle
                     glass={config.glass}
@@ -358,12 +403,12 @@ export default function HomePage() {
       {/* ── Use cases ────────────────────────────────────────────────────── */}
       <section className="border-b border-border" style={{ background: 'oklch(0.155 0.006 285)' }}>
         <div className="max-w-6xl mx-auto px-6 py-20">
-          <h2 className="text-3xl font-bold mb-3 text-center">Built for every stage of your sales cycle</h2>
+          <h2 className="font-display text-4xl font-semibold mb-3 text-center">Built for every stage of your sales cycle</h2>
           <p className="text-muted-foreground text-center mb-12">From pre-release to point-of-sale.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-w-3xl mx-auto">
             {USE_CASES.map((uc) => (
-              <div key={uc} className="flex items-center gap-3 bg-card rounded-xl border border-border px-4 py-3.5 hover:border-border/60 transition-colors">
-                <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: 'oklch(0.50 0.18 322)' }} />
+              <div key={uc} className="flex items-center gap-3 bg-card rounded-xl border border-border px-4 py-3.5 hover:border-primary/30 transition-colors">
+                <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'var(--gold)' }} />
                 <span className="text-sm">{uc}</span>
               </div>
             ))}
@@ -374,7 +419,7 @@ export default function HomePage() {
       {/* ── Testimonials ─────────────────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-6 py-24">
         <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground text-center mb-12">
-          What customers say
+          <GoldRule />What customers say
         </p>
         <div className="grid md:grid-cols-2 gap-8">
           {TESTIMONIALS.map((t) => (
@@ -383,12 +428,16 @@ export default function HomePage() {
               className="bg-card border border-border rounded-2xl p-5 sm:p-8 relative"
               style={{ boxShadow: 'inset 0 1px 0 oklch(1 0 0 / 0.06)' }}
             >
-              {/* quote mark */}
-              <div className="text-5xl font-serif leading-none mb-5 select-none" style={{ color: 'oklch(0.50 0.18 322 / 0.5)' }}>&ldquo;</div>
-              <p className="text-sm leading-relaxed mb-6 text-foreground/90">{t.quote}</p>
-              <div>
-                <div className="text-sm font-semibold">{t.name}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{t.title}</div>
+              <div className="font-display text-6xl leading-none mb-4 select-none" style={{ color: 'oklch(0.50 0.18 322 / 0.5)' }}>&ldquo;</div>
+              <p className="font-display text-lg italic leading-relaxed mb-6 text-foreground/90">{t.quote}</p>
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0" style={{ background: 'oklch(0.50 0.18 322 / 0.2)', color: 'oklch(0.75 0.15 322)' }}>
+                  {t.name.charAt(0)}
+                </div>
+                <div>
+                  <div className="text-sm font-semibold">{t.name}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{t.title}</div>
+                </div>
               </div>
             </div>
           ))}
@@ -398,7 +447,8 @@ export default function HomePage() {
       {/* ── Pricing ──────────────────────────────────────────────────────── */}
       <section id="pricing" className="border-t border-border" style={{ background: 'oklch(0.155 0.006 285)' }}>
         <div className="max-w-6xl mx-auto px-6 py-24 text-center">
-          <h2 className="text-3xl font-bold mb-3">Simple, flat-rate pricing</h2>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4"><GoldRule />Pricing</p>
+          <h2 className="font-display text-4xl font-semibold mb-3">Simple, flat-rate pricing</h2>
           <p className="text-muted-foreground mb-16">No subscription. No hidden fees. Pay per render.</p>
           <div className="flex flex-col md:flex-row gap-6 justify-center max-w-2xl mx-auto">
 
@@ -409,13 +459,13 @@ export default function HomePage() {
                 <div className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'oklch(0.50 0.18 322 / 0.2)', color: 'oklch(0.75 0.15 322)' }}>
                   Most popular
                 </div>
-                <div className="text-5xl font-extrabold mb-1">$29</div>
+                <div className="font-display text-6xl font-semibold mb-1">$29</div>
                 <div className="text-sm text-muted-foreground mb-6">per image · first 10 orders</div>
                 <Separator className="mb-6" />
                 <ul className="text-sm text-muted-foreground space-y-3 text-left">
                   {['2,160px PNG with transparent background', 'Royalty-free usage rights', 'Delivered in under 60 minutes', '12M+ configuration combinations', 'Live label builder included', 'Free label prep available'].map(item => (
                     <li key={item} className="flex gap-2.5 items-start">
-                      <span style={{ color: 'oklch(0.50 0.18 322)' }} className="font-bold mt-px flex-shrink-0">✓</span>
+                      <span style={{ color: 'oklch(0.62 0.16 322)' }} className="font-bold mt-px flex-shrink-0">✓</span>
                       {item}
                     </li>
                   ))}
@@ -430,13 +480,13 @@ export default function HomePage() {
             <Card className="flex-1 border-border bg-card rounded-2xl">
               <CardContent className="p-8">
                 <div className="h-7 mb-4" />
-                <div className="text-5xl font-extrabold mb-1">$23</div>
+                <div className="font-display text-6xl font-semibold mb-1">$23</div>
                 <div className="text-sm text-muted-foreground mb-6">per image · after 10 orders</div>
                 <Separator className="mb-6" />
                 <ul className="text-sm text-muted-foreground space-y-3 text-left">
                   {['Everything in the standard plan', 'Loyalty discount applied automatically', 'No codes, no sign-ups required', 'No commitment or minimum orders'].map(item => (
                     <li key={item} className="flex gap-2.5 items-start">
-                      <span style={{ color: 'oklch(0.50 0.18 322)' }} className="font-bold mt-px flex-shrink-0">✓</span>
+                      <span style={{ color: 'oklch(0.62 0.16 322)' }} className="font-bold mt-px flex-shrink-0">✓</span>
                       {item}
                     </li>
                   ))}
@@ -455,8 +505,8 @@ export default function HomePage() {
       <section className="border-y border-border" style={{ background: 'oklch(0.13 0.010 300)' }}>
         <div className="max-w-4xl mx-auto px-6 py-16 md:flex items-center gap-16">
           <div className="flex-1 mb-8 md:mb-0">
-            <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">Free service</div>
-            <h2 className="text-2xl font-bold mb-3">Need help with your label file?</h2>
+            <div className="text-xs font-semibold uppercase tracking-widest mb-3 text-gold">Free service</div>
+            <h2 className="font-display text-3xl font-semibold mb-3">Need help with your label file?</h2>
             <p className="text-muted-foreground leading-relaxed text-sm">
               Send us whatever you have — PDF, AI, EPS, JPG. We&apos;ll convert it into a clean PNG
               with a transparent background, ready to upload. Free, within 2 business days.
@@ -472,7 +522,8 @@ export default function HomePage() {
       {/* ── FAQ ──────────────────────────────────────────────────────────── */}
       <section id="faq">
         <div className="max-w-3xl mx-auto px-6 py-24">
-          <h2 className="text-3xl font-bold mb-12 text-center">Frequently asked questions</h2>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground text-center mb-4"><GoldRule />Questions</p>
+          <h2 className="font-display text-4xl font-semibold mb-12 text-center">Frequently asked questions</h2>
           <div className="space-y-3">
             {FAQS.map((faq) => (
               <details key={faq.q} className="group bg-card border border-border rounded-xl overflow-hidden">
@@ -490,10 +541,10 @@ export default function HomePage() {
       </section>
 
       {/* ── Footer CTA ───────────────────────────────────────────────────── */}
-      <section className="bg-plum">
-        <div className="max-w-6xl mx-auto px-6 py-24 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 text-white">Ready to create your first bottle shot?</h2>
-          <p className="mb-10 text-base sm:text-lg" style={{ color: 'oklch(0.96 0 0 / 0.60)' }}>
+      <section className="bg-plum relative overflow-hidden grain">
+        <div className="max-w-6xl mx-auto px-6 py-24 text-center relative z-10">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold mb-4 text-white leading-tight">Ready to create your first bottle shot?</h2>
+          <p className="mb-10 text-base sm:text-lg" style={{ color: 'oklch(0.96 0 0 / 0.62)' }}>
             Skip the samples, shipping, and photoshoots. Get your image in under 60 minutes.
           </p>
           <Link
@@ -510,13 +561,13 @@ export default function HomePage() {
       {/* ── Footer ───────────────────────────────────────────────────────── */}
       <footer className="border-t border-border px-6 py-8">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between text-sm text-muted-foreground gap-4">
-          <span>© 2026 WineRender</span>
+          <span className="font-display font-semibold text-foreground">WineRender</span>
           <div className="flex items-center gap-6">
             <Link href="/library" className="hover:text-foreground transition-colors">Library</Link>
             <Link href="/colors" className="hover:text-foreground transition-colors">Colors</Link>
             <Link href="/label-prep" className="hover:text-foreground transition-colors">Label prep</Link>
           </div>
-          <span className="hidden sm:block">Professional 3D wine bottle renders</span>
+          <span className="hidden sm:block">© 2026 WineRender · 3D wine bottle renders</span>
         </div>
       </footer>
     </div>
