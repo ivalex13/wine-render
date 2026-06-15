@@ -40,7 +40,7 @@ export function ColorsExplorer({ glassColors, liquidShades }: { glassColors: Gla
       {/* Glass selector */}
       <div className="mb-12">
         <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-6">Select glass color</h2>
-        <div className="flex flex-wrap gap-5">
+        <div className="flex flex-wrap gap-3 md:gap-5">
           {glassColors.map((glass) => (
             <button
               key={glass.id}
