@@ -4,6 +4,8 @@ import { buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
 import type { BottleShape, GlassColor, LiquidShade, ClosureFinish } from '@/types/database'
 
+export const dynamic = 'force-dynamic'
+
 function Swatch({ color, name }: { color: string; name: string }) {
   return (
     <div className="flex flex-col items-center gap-2.5">

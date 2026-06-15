@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { ColorsExplorer } from './ColorsExplorer'
 import type { GlassColor, LiquidShade } from '@/types/database'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ColorsPage() {
   const [colorsRes, shadesRes] = await Promise.all([
     supabase.from('glass_colors').select('*'),

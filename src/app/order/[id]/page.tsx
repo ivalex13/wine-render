@@ -5,6 +5,8 @@ import { buttonVariants } from '@/components/ui/button'
 import { Nav } from '@/components/nav'
 import type { BottleShape, GlassColor, LiquidShade, ClosureFinish } from '@/types/database'
 
+export const dynamic = 'force-dynamic'
+
 const STATUS_LABELS: Record<string, { label: string; description: string; color: string }> = {
   pending_payment: {
     label: 'Pending payment',
