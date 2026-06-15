@@ -182,13 +182,14 @@ export default function HomePage() {
                 Create my first bottle shot
               </Link>
               <Link href="/library" className={buttonVariants({ variant: 'outline', size: 'lg' })}>
-                Explore options
+                Browse 150+ shapes & colors
               </Link>
             </div>
             {/* social proof nudge */}
-            <p className="text-xs text-muted-foreground mt-8">
-              Trusted by wine brands across 14 countries · 2,160px PNG · transparent background
-            </p>
+            <div className="mt-8 space-y-1">
+              <p className="text-xs text-muted-foreground">Trusted by 200+ wine producers across 14 countries</p>
+              <p className="text-xs text-muted-foreground/60">2,160px PNG · transparent background · delivered in &lt;60 min</p>
+            </div>
           </div>
 
           {/* Bottles */}
@@ -264,8 +265,8 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-6 py-24 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-8">Why it looks real</p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 leading-[1.1]">
-            Not a mockup. Not AI.<br />
-            <span style={{ color: 'oklch(0.68 0.18 322)' }}>Just real 3D rendering.</span>
+            True 3D rendering —<br />
+            <span style={{ color: 'oklch(0.68 0.18 322)' }}>indistinguishable from a studio shot.</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-16">
             Every image is built from a fully 3D model. Light wraps around the bottle correctly.
@@ -300,8 +301,8 @@ export default function HomePage() {
               <CardContent className="p-0">
                 <div className="h-0.5 w-full" style={{ background: `oklch(0.50 0.18 322 / ${0.3 + i * 0.12})` }} />
                 <div className="p-5 sm:p-8">
-                  <div className="text-5xl font-extrabold mb-5 leading-none" style={{ color: 'oklch(0.50 0.18 322 / 0.35)' }}>{s.step}</div>
-                  <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+                  <div className="text-4xl font-extrabold mb-5 leading-none" style={{ color: 'oklch(0.50 0.18 322 / 0.5)' }}>{s.step}</div>
+                  <h3 className="text-lg sm:text-xl font-bold mb-2">{s.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
                 </div>
               </CardContent>
@@ -317,9 +318,12 @@ export default function HomePage() {
             Sample outputs
           </p>
           <h2 className="text-3xl font-bold text-center mb-3">See what's possible</h2>
+          <p className="text-muted-foreground text-center mb-4 text-sm font-medium">
+            150+ bottle shapes × 12 glass colors × 25+ liquid shades × 150+ closures
+          </p>
           <p className="text-muted-foreground text-center mb-16 max-w-xl mx-auto text-sm leading-relaxed">
-            Every bottle above is a unique glass × liquid × closure combination.
-            Yours will look just as good — 2,160px PNG, transparent background, delivered in under 60 minutes.
+            Each render below is a unique glass × liquid combination. Yours will look just as good —
+            2,160px PNG, transparent background, delivered in under 60 minutes.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {GALLERY.map((config, i) => (
@@ -372,7 +376,7 @@ export default function HomePage() {
         <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground text-center mb-12">
           What customers say
         </p>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-8">
           {TESTIMONIALS.map((t) => (
             <div
               key={t.name}
@@ -400,7 +404,7 @@ export default function HomePage() {
 
             {/* Featured */}
             <div className="flex-1 rounded-2xl border relative overflow-hidden" style={{ borderColor: 'oklch(0.50 0.18 322 / 0.7)', background: 'oklch(0.50 0.18 322 / 0.06)' }}>
-              <div className="absolute top-0 inset-x-0 h-0.5" style={{ background: 'oklch(0.50 0.18 322)' }} />
+              <div className="absolute top-0 inset-x-0 h-1" style={{ background: 'oklch(0.50 0.18 322)' }} />
               <div className="p-8">
                 <div className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: 'oklch(0.50 0.18 322 / 0.2)', color: 'oklch(0.75 0.15 322)' }}>
                   Most popular
@@ -417,7 +421,7 @@ export default function HomePage() {
                   ))}
                 </ul>
                 <div className="mt-8">
-                  <Link href="/configure" className={buttonVariants({ size: 'lg' }) + ' w-full'}>Get started</Link>
+                  <Link href="/configure" className={buttonVariants({ size: 'lg' }) + ' w-full'}>Configure a bottle</Link>
                 </div>
               </div>
             </div>
@@ -460,7 +464,7 @@ export default function HomePage() {
           </div>
           <div className="flex flex-col gap-3 flex-shrink-0 w-full md:w-auto">
             <Link href="/label-prep" className={buttonVariants({ size: 'lg' })}>Request free label prep</Link>
-            <Link href="/configure" className={buttonVariants({ variant: 'outline', size: 'lg' })}>I already have a PNG</Link>
+            <Link href="/configure" className={buttonVariants({ variant: 'outline', size: 'lg' })}>Skip — I have a PNG</Link>
           </div>
         </div>
       </section>
@@ -497,8 +501,9 @@ export default function HomePage() {
             className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-white font-bold text-base hover:bg-white/92 transition-colors"
             style={{ color: 'oklch(0.27 0.12 322)' }}
           >
-            Create my first bottle shot — $29
+            Create my first bottle shot
           </Link>
+          <p className="mt-4 text-sm" style={{ color: 'oklch(0.96 0 0 / 0.45)' }}>$29 per image · no subscription · delivered in under 60 minutes</p>
         </div>
       </section>
 

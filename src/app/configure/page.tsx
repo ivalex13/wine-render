@@ -194,6 +194,12 @@ function BottlePreview({
 // ── Step indicator ─────────────────────────────────────────────────────────────
 
 const STEP_NAMES = ['Shape', 'Colors', 'Closure', 'Label', 'Review']
+const STEP_NEXT_LABELS: Record<number, string> = {
+  1: 'Next: Colors',
+  2: 'Next: Closure',
+  3: 'Next: Label',
+  4: 'Review & pay',
+}
 
 function StepIndicator({ current, total, onGoTo }: { current: Step; total: number; onGoTo: (n: number) => void }) {
   return (
@@ -555,9 +561,10 @@ export default function ConfigurePage() {
                           {config.labelFile ? (
                             <div>
                               <div className="text-green-400 text-sm font-semibold mb-1">✓ {config.labelFile.name}</div>
-                              <div className="text-xs text-muted-foreground">
+                              <div className="text-xs text-muted-foreground mb-1">
                                 {(config.labelFile.size / 1024 / 1024).toFixed(2)} MB · Click to change
                               </div>
+                              <div className="text-xs text-green-400/70">Ready to continue — adjust position below if needed</div>
                             </div>
                           ) : (
                             <div>
@@ -575,13 +582,13 @@ export default function ConfigurePage() {
                         {config.labelFile && (
                           <div className="space-y-5">
                             <Slider
-                              label="Horizontal position" min={-50} max={50}
+                              label="Left / right" min={-50} max={50}
                               value={config.labelPositionX}
                               format={(v) => (v > 0 ? `+${v}` : `${v}`)}
                               onChange={(v) => setConfig(c => ({ ...c, labelPositionX: v }))}
                             />
                             <Slider
-                              label="Vertical position" min={-50} max={50}
+                              label="Up / down" min={-50} max={50}
                               value={config.labelPositionY}
                               format={(v) => (v > 0 ? `+${v}` : `${v}`)}
                               onChange={(v) => setConfig(c => ({ ...c, labelPositionY: v }))}
@@ -596,13 +603,16 @@ export default function ConfigurePage() {
                         )}
 
                         {!config.labelFile && (
-                          <p className="text-xs text-muted-foreground mt-2">
-                            No label yet?{' '}
-                            <Link href="/label-prep" className="underline hover:text-foreground transition-colors">
-                              Request free label prep
-                            </Link>{' '}
-                            or skip and add it later.
-                          </p>
+                          <div className="mt-3 space-y-1.5">
+                            <p className="text-xs text-muted-foreground/80 font-medium">Label is optional — you can add it after checkout.</p>
+                            <p className="text-xs text-muted-foreground">
+                              No label file yet?{' '}
+                              <Link href="/label-prep" className="underline hover:text-foreground transition-colors">
+                                Request free label prep
+                              </Link>{' '}
+                              — we&apos;ll convert any format to PNG within 2 business days.
+                            </p>
+                          </div>
                         )}
                       </div>
 
@@ -638,7 +648,7 @@ export default function ConfigurePage() {
                         <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Step 5 of 5</p>
                         <h2 className="text-xl font-bold mb-6">Review and pay</h2>
 
-                        <div className="bg-muted/40 rounded-xl p-5 mb-6 space-y-3 text-sm border border-border">
+                        <div className="bg-muted/60 rounded-xl p-5 mb-6 space-y-3 text-sm border border-border">
                           {[
                             ['Bottle shape',  selectedShape?.name],
                             ['Glass color',   selectedGlass?.name],
@@ -651,16 +661,16 @@ export default function ConfigurePage() {
                               <span className="text-right font-medium">{v ?? '—'}</span>
                             </div>
                           ))}
-                          <div className="border-t border-border pt-3 mt-1 flex justify-between font-semibold text-base">
+                          <div className="border-t border-border pt-3 mt-1 flex justify-between font-bold text-base">
                             <span>Total</span>
-                            <span>$29.00</span>
+                            <span className="text-lg">$29.00</span>
                           </div>
                         </div>
 
                         <div className="space-y-2 mb-6">
                           <Label htmlFor="email" className="text-sm">Email address</Label>
                           <Input
-                            id="email" type="email" placeholder="you@example.com"
+                            id="email" type="email" placeholder="your@winery.com"
                             value={config.email}
                             onChange={(e) => setConfig(c => ({ ...c, email: e.target.value }))}
                           />
@@ -669,19 +679,20 @@ export default function ConfigurePage() {
                           </p>
                         </div>
 
+                        <div className="rounded-lg border border-border bg-muted/30 px-4 py-3 mb-4 text-xs text-muted-foreground flex items-start gap-2">
+                          <span className="flex-shrink-0 mt-px">ⓘ</span>
+                          <span>Payment is processed offline — after you submit, we&apos;ll email you a payment link. Your order won&apos;t be started until payment is confirmed.</span>
+                        </div>
                         <Button
                           className="w-full" size="lg"
                           disabled={!canProceed[5] || submitting}
                           onClick={handleSubmit}
                         >
-                          {submitting ? 'Submitting…' : 'Pay $29.00 and submit'}
+                          {submitting ? 'Submitting…' : 'Submit order — $29'}
                         </Button>
                         {submitError && (
                           <p className="text-sm text-red-400 text-center mt-3">{submitError}</p>
                         )}
-                        <p className="text-xs text-muted-foreground text-center mt-3">
-                          Payment processing coming soon — order will be created and we&apos;ll contact you.
-                        </p>
                       </div>
                     )}
                   </div>
@@ -705,7 +716,7 @@ export default function ConfigurePage() {
                     onClick={() => setStep(s => Math.min(5, s + 1) as Step)}
                     disabled={!canProceed[step]}
                   >
-                    Continue
+                    {STEP_NEXT_LABELS[step]}
                   </Button>
                 )}
               </div>
@@ -717,9 +728,10 @@ export default function ConfigurePage() {
             <div className="sticky top-6">
               <Card className="bg-card border-border">
                 <CardContent className="p-5">
-                  <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
+                  <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-0.5">
                     Live preview
                   </div>
+                  <div className="text-xs text-muted-foreground/50 mb-4">Updates as you configure</div>
                   <div className="flex justify-center">
                     <BottlePreview {...previewProps} width={130} height={300} />
                   </div>
