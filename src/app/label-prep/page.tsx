@@ -57,7 +57,7 @@ export default function LabelPrepPage() {
           <p className="text-muted-foreground max-w-xl leading-relaxed text-lg">
             Send us whatever you have. We&apos;ll convert it into a clean PNG that works perfectly in WineRender — at no charge, within 2 business days.
           </p>
-          <div className="mt-8 flex items-center gap-4 flex-wrap">
+          <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
             <a
               href="mailto:labels@winerender.com?subject=Label prep request"
               className="inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold text-sm transition-colors text-white"
@@ -93,7 +93,7 @@ export default function LabelPrepPage() {
         {/* Accepted formats */}
         <section>
           <h2 className="text-2xl font-bold mb-8">What to send</h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             <div>
               <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-5">Accepted</div>
               <ul className="space-y-3">

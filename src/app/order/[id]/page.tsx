@@ -115,32 +115,32 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
           <CardContent className="p-6">
             <h2 className="font-semibold mb-5">Configuration</h2>
             <div className="space-y-3 text-sm">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-start gap-4 flex-wrap">
                 <span className="text-muted-foreground">Bottle shape</span>
                 <span className="font-medium">{shape?.name ?? order.bottle_shape_id}</span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-start gap-4 flex-wrap">
                 <span className="text-muted-foreground">Glass color</span>
                 <span className="flex items-center gap-2 font-medium">
                   <ColorDot hex={glass?.hex_preview ?? null} />
                   {glass?.name ?? order.glass_color_id}
                 </span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-start gap-4 flex-wrap">
                 <span className="text-muted-foreground">Liquid shade</span>
                 <span className="flex items-center gap-2 font-medium">
                   <ColorDot hex={liquid?.hex_preview ?? null} />
                   {liquid?.name ?? order.liquid_shade_id}
                 </span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-start gap-4 flex-wrap">
                 <span className="text-muted-foreground">Closure</span>
                 <span className="flex items-center gap-2 font-medium">
                   <ColorDot hex={closure?.hex_preview ?? null} />
                   {closure?.name ?? order.closure_finish_id}
                 </span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-start gap-4 flex-wrap">
                 <span className="text-muted-foreground">Label</span>
                 <span className="font-medium">{order.label_file_url ? 'Uploaded' : 'Not uploaded'}</span>
               </div>

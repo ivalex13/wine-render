@@ -200,10 +200,10 @@ function StepIndicator({ current, total, onGoTo }: { current: Step; total: numbe
     <div className="flex items-start mb-10">
       {Array.from({ length: total }, (_, i) => i + 1).map((n) => (
         <div key={n} className={`flex items-start ${n < total ? 'flex-1' : ''}`}>
-          <div className="flex flex-col items-center gap-2 flex-shrink-0">
+          <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
             <div
               onClick={() => n < current && onGoTo(n)}
-              className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
+              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs sm:text-sm font-semibold transition-all ${
                 n === current ? 'bg-primary text-primary-foreground'
                 : n < current ? 'bg-green-600 text-white cursor-pointer hover:bg-green-500'
                 : 'bg-muted text-muted-foreground'
@@ -214,7 +214,7 @@ function StepIndicator({ current, total, onGoTo }: { current: Step; total: numbe
             </div>
             <span
               onClick={() => n < current && onGoTo(n)}
-              className={`text-xs font-medium transition-colors ${
+              className={`hidden sm:block text-xs font-medium transition-colors ${
                 n === current ? 'text-foreground'
                 : n < current ? 'text-muted-foreground cursor-pointer hover:text-foreground'
                 : 'text-muted-foreground'
@@ -224,7 +224,7 @@ function StepIndicator({ current, total, onGoTo }: { current: Step; total: numbe
             </span>
           </div>
           {n < total && (
-            <div className={`h-px flex-1 mt-4 mx-2 ${n < current ? 'bg-green-600' : 'bg-border'}`} />
+            <div className={`h-px flex-1 mt-4 mx-1.5 sm:mx-2 ${n < current ? 'bg-green-600' : 'bg-border'}`} />
           )}
         </div>
       ))}
@@ -238,7 +238,7 @@ function SwatchGrid<T extends { id: string; name: string; hex_preview: string | 
   items, selected, onSelect,
 }: { items: T[]; selected: string; onSelect: (id: string) => void }) {
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-3 md:gap-4">
       {items.map((item) => {
         const active = selected === item.id
         return (
@@ -456,7 +456,7 @@ export default function ConfigurePage() {
     <div className="min-h-screen bg-background">
       <Nav />
 
-      <div className="max-w-5xl mx-auto px-6 py-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="mb-8">
           <h1 className="text-2xl font-bold mb-1">Configure your bottle</h1>
           <p className="text-muted-foreground text-sm">Customize every detail, then upload your label and submit.</p>
@@ -608,7 +608,7 @@ export default function ConfigurePage() {
 
                       {/* Live bottle with label */}
                       <div className="flex items-center justify-center py-4">
-                        <BottlePreview {...previewProps} width={160} height={368} />
+                        <BottlePreview {...previewProps} width={120} height={276} />
                       </div>
                     </div>
                   </div>

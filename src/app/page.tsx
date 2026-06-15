@@ -166,18 +166,18 @@ export default function HomePage() {
           background: 'radial-gradient(ellipse at 80% 60%, oklch(0.50 0.18 322 / 0.12) 0%, transparent 45%)',
         }} />
 
-        <div className="max-w-6xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center relative">
+        <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center relative">
           <div>
             <Badge variant="secondary" className="mb-6">No photoshoot. No samples. No waiting.</Badge>
-            <h1 className="text-6xl font-extrabold tracking-tight leading-[1.05] mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.05] mb-6">
               Instant bottle shots,{' '}
               <span style={{ color: 'oklch(0.68 0.18 322)' }}>ready to sell.</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
+            <p className="text-lg sm:text-xl text-muted-foreground mb-10 leading-relaxed">
               Built for online listings, sales materials, and distributor presentations.
               True 3D rendering — not AI, not mockups.
             </p>
-            <div className="flex gap-4 flex-wrap">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Link href="/configure" className={buttonVariants({ size: 'lg' })}>
                 Create my first bottle shot
               </Link>
@@ -212,11 +212,11 @@ export default function HomePage() {
 
       {/* ── Stats ────────────────────────────────────────────────────────── */}
       <section className="bg-plum">
-        <div className="max-w-6xl mx-auto px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="max-w-6xl mx-auto px-6 py-10 md:py-14 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
           {STATS.map((s) => (
             <div key={s.label}>
-              <div className="text-5xl font-extrabold mb-1 text-white">{s.number}</div>
-              <div className="text-sm text-white/65">{s.label}</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-1 text-white">{s.number}</div>
+              <div className="text-xs sm:text-sm text-white/65">{s.label}</div>
             </div>
           ))}
         </div>
@@ -229,7 +229,7 @@ export default function HomePage() {
             Great bottle photography is slow, expensive, and fragile.
           </h2>
           <div className="grid md:grid-cols-[1fr_1px_1fr] gap-0">
-            <div className="pr-12">
+            <div className="md:pr-12">
               <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-7">The old way</div>
               <ul className="space-y-5">
                 {['Physical sample bottle needed', 'Shipping to a studio — and back', 'Scheduling a photoshoot', 'Days of retouching', 'Weeks of waiting', 'Hundreds or thousands of dollars'].map((item) => (
@@ -241,6 +241,7 @@ export default function HomePage() {
               </ul>
             </div>
             <div className="hidden md:block bg-border mx-6" />
+            <div className="block md:hidden border-t border-border mt-10 mb-0" />
             <div className="pl-0 md:pl-12 mt-10 md:mt-0">
               <div className="text-xs font-semibold uppercase tracking-widest mb-7" style={{ color: 'oklch(0.68 0.15 322)' }}>
                 With WineRender
@@ -262,7 +263,7 @@ export default function HomePage() {
       <section className="border-b border-border" style={{ background: 'oklch(0.14 0.012 310)' }}>
         <div className="max-w-5xl mx-auto px-6 py-24 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-8">Why it looks real</p>
-          <h2 className="text-5xl font-extrabold mb-6 leading-[1.1]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 leading-[1.1]">
             Not a mockup. Not AI.<br />
             <span style={{ color: 'oklch(0.68 0.18 322)' }}>Just real 3D rendering.</span>
           </h2>
@@ -298,8 +299,8 @@ export default function HomePage() {
             <Card key={s.step} className="border-border bg-card overflow-hidden">
               <CardContent className="p-0">
                 <div className="h-0.5 w-full" style={{ background: `oklch(0.50 0.18 322 / ${0.3 + i * 0.12})` }} />
-                <div className="p-8">
-                  <div className="text-6xl font-extrabold mb-5 leading-none" style={{ color: 'oklch(0.50 0.18 322 / 0.35)' }}>{s.step}</div>
+                <div className="p-5 sm:p-8">
+                  <div className="text-5xl font-extrabold mb-5 leading-none" style={{ color: 'oklch(0.50 0.18 322 / 0.35)' }}>{s.step}</div>
                   <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
                 </div>
@@ -320,7 +321,7 @@ export default function HomePage() {
             Every bottle above is a unique glass × liquid × closure combination.
             Yours will look just as good — 2,160px PNG, transparent background, delivered in under 60 minutes.
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {GALLERY.map((config, i) => (
               <div key={i} className="flex flex-col items-center gap-3">
                 <div
@@ -355,7 +356,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6 py-20">
           <h2 className="text-3xl font-bold mb-3 text-center">Built for every stage of your sales cycle</h2>
           <p className="text-muted-foreground text-center mb-12">From pre-release to point-of-sale.</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-w-3xl mx-auto">
             {USE_CASES.map((uc) => (
               <div key={uc} className="flex items-center gap-3 bg-card rounded-xl border border-border px-4 py-3.5 hover:border-border/60 transition-colors">
                 <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: 'oklch(0.50 0.18 322)' }} />
@@ -375,7 +376,7 @@ export default function HomePage() {
           {TESTIMONIALS.map((t) => (
             <div
               key={t.name}
-              className="bg-card border border-border rounded-2xl p-8 relative"
+              className="bg-card border border-border rounded-2xl p-5 sm:p-8 relative"
               style={{ boxShadow: 'inset 0 1px 0 oklch(1 0 0 / 0.06)' }}
             >
               {/* quote mark */}
@@ -448,7 +449,7 @@ export default function HomePage() {
 
       {/* ── Label prep CTA ───────────────────────────────────────────────── */}
       <section className="border-y border-border" style={{ background: 'oklch(0.13 0.010 300)' }}>
-        <div className="max-w-4xl mx-auto px-6 py-20 md:flex items-center gap-16">
+        <div className="max-w-4xl mx-auto px-6 py-16 md:flex items-center gap-16">
           <div className="flex-1 mb-8 md:mb-0">
             <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">Free service</div>
             <h2 className="text-2xl font-bold mb-3">Need help with your label file?</h2>
@@ -457,7 +458,7 @@ export default function HomePage() {
               with a transparent background, ready to upload. Free, within 2 business days.
             </p>
           </div>
-          <div className="flex flex-col gap-3 flex-shrink-0">
+          <div className="flex flex-col gap-3 flex-shrink-0 w-full md:w-auto">
             <Link href="/label-prep" className={buttonVariants({ size: 'lg' })}>Request free label prep</Link>
             <Link href="/configure" className={buttonVariants({ variant: 'outline', size: 'lg' })}>I already have a PNG</Link>
           </div>
@@ -487,8 +488,8 @@ export default function HomePage() {
       {/* ── Footer CTA ───────────────────────────────────────────────────── */}
       <section className="bg-plum">
         <div className="max-w-6xl mx-auto px-6 py-24 text-center">
-          <h2 className="text-4xl font-extrabold mb-4 text-white">Ready to create your first bottle shot?</h2>
-          <p className="mb-10 text-lg" style={{ color: 'oklch(0.96 0 0 / 0.60)' }}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 text-white">Ready to create your first bottle shot?</h2>
+          <p className="mb-10 text-base sm:text-lg" style={{ color: 'oklch(0.96 0 0 / 0.60)' }}>
             Skip the samples, shipping, and photoshoots. Get your image in under 60 minutes.
           </p>
           <Link
@@ -503,14 +504,14 @@ export default function HomePage() {
 
       {/* ── Footer ───────────────────────────────────────────────────────── */}
       <footer className="border-t border-border px-6 py-8">
-        <div className="max-w-6xl mx-auto flex items-center justify-between text-sm text-muted-foreground flex-wrap gap-4">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between text-sm text-muted-foreground gap-4">
           <span>© 2026 WineRender</span>
           <div className="flex items-center gap-6">
             <Link href="/library" className="hover:text-foreground transition-colors">Library</Link>
             <Link href="/colors" className="hover:text-foreground transition-colors">Colors</Link>
             <Link href="/label-prep" className="hover:text-foreground transition-colors">Label prep</Link>
           </div>
-          <span>Professional 3D wine bottle renders</span>
+          <span className="hidden sm:block">Professional 3D wine bottle renders</span>
         </div>
       </footer>
     </div>

@@ -92,14 +92,14 @@ export default async function LibraryPage() {
 
         {/* Glass colors */}
         <section>
-          <div className="flex items-end justify-between mb-2">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-2">
             <h2 className="text-2xl font-bold">Glass colors</h2>
             <Link href="/colors" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               See glass × liquid combinations →
             </Link>
           </div>
           <p className="text-muted-foreground text-sm mb-10">{glassColors.length} options — from clear flint to cobalt blue.</p>
-          <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-6">
+          <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-4 md:gap-6">
             {glassColors.map((color) => (
               <Swatch key={color.id} color={color.hex_preview ?? '#888'} name={color.name} />
             ))}
@@ -110,14 +110,14 @@ export default async function LibraryPage() {
 
         {/* Liquid shades */}
         <section>
-          <div className="flex items-end justify-between mb-2">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-2">
             <h2 className="text-2xl font-bold">Liquid shades</h2>
             <Link href="/colors" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               See glass × liquid combinations →
             </Link>
           </div>
           <p className="text-muted-foreground text-sm mb-10">{liquidShades.length} shades — reds, whites, rosé, orange, and specialty.</p>
-          <div className="grid grid-cols-4 md:grid-cols-7 lg:grid-cols-8 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 gap-4 md:gap-6">
             {liquidShades.map((shade) => (
               <Swatch key={shade.id} color={shade.hex_preview ?? '#888'} name={shade.name} />
             ))}
